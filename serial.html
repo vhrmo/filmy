@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Victoria</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link href="video-js.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+
+<!--
+For subtitles to work - run a local web server:
+
+npm install http-server -g
+http-server -p 8000
+
+-->
+<!--<div>-->
+    <!--<video width="80%" height="80%" controls>-->
+        <!--<source src="./Darkest_Hour.mp4" type="video/mp4">-->
+        <!--<track kind="captions" src="./Darkest-Hour.vtt" srclang="cs" label="Czech" default/>-->
+    <!--</video>-->
+<!--</div>-->
+
+<div class="container">
+    <!--<div class="page-header text-center"><h1>Victoria</h1></div>-->
+    <div class="row text-center">
+        <h2>Chernobyl</h2>
+    </div>
+    <div class="row text-center" style="padding-bottom: 160px">
+        <div class="btn-group">
+            <button onclick="selectEpisode(this)" type="button" class="btn btn-primary">E1</button>
+            <button onclick="selectEpisode(this)" type="button" class="btn btn-primary">E2</button>
+            <button onclick="selectEpisode(this)" type="button" class="btn btn-primary">E3</button>
+            <button onclick="selectEpisode(this)" type="button" class="btn btn-primary">E4</button>
+            <button onclick="selectEpisode(this)" type="button" class="btn btn-primary">E5</button>
+        </div>
+    </div>
+    <div class=" row text-center">
+
+    <!--<div id="video">-->
+    <!--</div>-->
+
+        <div id="video">
+            <video id='vid' class="video-js vjs-16-9 vjs-big-play-centered vjs-default-skin" data-setup="{}" controls>
+              <source src="./Chernobyl.E1.mp4" type="video/mp4">
+              <track kind="captions" src="./chernobyl.E1.vtt" srclang="cs" label="Czech" default/>
+            </video>
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top: 60px;">
+        &nbsp;
+    </div>
+
+
+    <script>
+        function selectEpisode(e) {
+            var episode = e.innerHTML;
+            console.log(episode);
+            var player = videojs('vid');
+            player.src('./Chernobyl.' + episode.toUpperCase() + '.mp4');
+            var oldTracks = player.textTracks();
+            var i = oldTracks.length;
+            while (i--) {
+                player.removeRemoteTextTrack(oldTracks[i]);
+            }
+            player.addRemoteTextTrack({
+                kind: 'captions',
+                srclang: 'cs',
+                label: 'Czech',
+                src: './chernobyl.' + episode + '.vtt'
+            });
+
+//            var d = document.getElementById('video');
+//            d.innerHTML =
+//            '<video class="video-js vjs-16-9 vjs-big-play-centered vjs-default-skin" data-setup="{}" controls>' +
+//            '  <source src="./Victoria.' + episode.toUpperCase() + '.mp4" type="video/mp4">' +
+//            '  <track kind="captions" src="./victoria.' + episode + '.vtt" srclang="cs" label="Czech" default/>' +
+//            '</video>';
+
+        }
+    </script>
+
+    <script src="video.js"></script>
+
+</div>
+</body>
+</html>
